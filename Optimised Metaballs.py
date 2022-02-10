@@ -57,7 +57,6 @@ def draw():
     max_y = round(max(ball[0][1] + ball[1] for ball in balls) +100)
     min_y = round(min(ball[0][1] - ball[1] for ball in balls) -100)
     pygame.draw.rect(screen,white,(min_x+width/2,min_y+width/2,max_x-min_x,max_y-min_y),1)
-    print(min_x,max_x,min_y,max_y)
     #for x in range(min_x,min_x,dx):
         #for y in range(max_y,min_y,dy):
 """
@@ -70,14 +69,10 @@ def draw():
                     values[round(y/dy)][round(x/dx)] =  sum([(ball[1])**2/sqrt(((x-ball[0][0])*cos(ball[3])+(y-ball[0][1])*sin(ball[3]))**4 + ((x-ball[0][0])*-sin(ball[3])+(y-ball[0][1])*cos(ball[3]))**4) for ball in balls])         
             except:
                 pass
-    #print(len(values))
     for x in range(round(-width/2),round(width/2),dx):
         for y in range(round(-height/2),round(height/2),dy):
-            #print(values)
             box = [[values[round(y/dy)][round(x/dx)],values[round(y/dy)][round(x/dx)+1]],
                    [values[round(y/dy)+1][round(x/dx)],values[round(y/dy)+1][round(x/dx)+1]]]
-            #print(box)
-            #print(round(y/dy),round(x/dx))
             points = []
             above = False
             below = False
@@ -106,41 +101,24 @@ def draw():
                                             new_ix,new_iy,new_compare_ix,new_compare_iy = compare_ix,compare_iy,ix,iy
                                         else:
                                             new_ix,new_iy,new_compare_ix,new_compare_iy = ix,iy,compare_ix,compare_iy
-                                        #print("y diff")
-                                        #print(box[compare_iy][compare_ix],box[iy][ix])
                                         
                                         points.append((x + new_compare_ix*dx , y + ((1-box[new_iy][new_ix])/(box[new_compare_iy][new_compare_ix]-box[new_iy][new_ix])) * dx))
-                                        #points.append((x + compare_ix*dx , y + ((1-box[compare_iy][compare_ix])/(box[iy][ix]-box[compare_iy][compare_ix])) * dy + adjacent*iy))
-                                    
+                                                                            
                                     #same y, same column
                                     if iy == compare_iy:
                                         if ix > compare_ix:
                                             new_ix,new_iy,new_compare_ix,new_compare_iy = compare_ix,compare_iy,ix,iy
                                         else:
                                             new_ix,new_iy,new_compare_ix,new_compare_iy = ix,iy,compare_ix,compare_iy
-                                        #print("x diff")
-                                        #print(f"offset = {adjacent+dx}")
-                                        
+                                                                               
                                         points.append((x + ((1-box[new_iy][new_ix])/(box[new_compare_iy][new_compare_ix]-box[new_iy][new_ix])) * dy, y + new_compare_iy*dy))
-                                        #points.append((x + ((1-box[compare_iy][compare_ix])/(box[iy][ix]-box[compare_iy][compare_ix])) * dy + adjacent*ix , y + compare_iy*dy))
-
-                                    #print(iy,ix,compare_iy,compare_ix)
-                                    #l = [["TL","TR"],["BL","BR"]]
-                                    #print(l[iy][ix],l[compare_iy][compare_ix])
-                                    #print(box)
-                                    #print(((1-box[iy][ix])/(box[compare_iy][compare_ix]-box[iy][ix])) * dy)
-                #print(box)
-                #pygame.draw.rect(screen,(20,20,20),(x+width/2,y+height/2,dx,dy),1)
-                
+                                                        
                 (r, g, b) = colorsys.hsv_to_rgb((points[0][0]+width/2 + points[0][1]+height/2)/(width+height), 1, 1)
                 colour = (r*255,g*255,b*255)
                 pygame.draw.line(screen, colour, (points[0][0]+width/2,points[0][1]+height/2), (points[1][0]+width/2,points[1][1]+height/2))
                 
-#def rotate():
-    
-    
-    
-                
+
+
 print(balls)
 play = False
 running = True
@@ -159,8 +137,6 @@ while running:
         screen.fill(background_colour)
         draw()
         move()
-        #for ball in balls:
-        #pygame.draw.circle(screen,white,(ball[0][0]+width/2,ball[0][1]+height/2),ball[1]*2,1)
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -173,3 +149,4 @@ while running:
                 pygame.image.save(screen, "meatballs.jpeg")
 
 pygame.quit()
+
